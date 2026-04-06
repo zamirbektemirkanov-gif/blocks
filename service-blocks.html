@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Варианты блока «Услуги»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════
+   TOKENS
+══════════════════════════════ */
+:root,[data-theme="light"]{
+  --bg:#f5f4f0;
+  --surface:#faf9f7;
+  --surface-2:#fff;
+  --surface-off:#eeece7;
+  --divider:#e0ddd8;
+  --border:oklch(0.25 0.01 80/0.11);
+  --text:#1e1c17;
+  --muted:#79786f;
+  --faint:#b8b7b0;
+  --inv:#faf9f7;
+
+  --teal:#01696f;
+  --teal-h:#0c4e54;
+  --teal-bg:#d4e8e6;
+  --navy:#0d2540;
+  --navy-h:#1a3a5e;
+  --gold:#b8860b;
+  --gold-bg:#f5edcc;
+  --coral:#c94a2a;
+  --coral-bg:#fbe8e2;
+  --plum:#5c2d85;
+  --plum-bg:#ede1f7;
+
+  --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-2xl:1.5rem;--r-full:9999px;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+  --s8:2rem;--s10:2.5rem;--s12:3rem;--s16:4rem;--s20:5rem;
+  --tx-xs:clamp(.75rem,.7rem+.25vw,.875rem);
+  --tx-sm:clamp(.875rem,.8rem+.35vw,1rem);
+  --tx-base:clamp(1rem,.95rem+.25vw,1.125rem);
+  --tx-lg:clamp(1.125rem,1rem+.75vw,1.5rem);
+  --tx-xl:clamp(1.5rem,1.2rem+1.25vw,2.25rem);
+  --tx-2xl:clamp(2rem,1.2rem+2.5vw,3.5rem);
+  --ease:180ms cubic-bezier(.16,1,.3,1);
+  --sh-sm:0 1px 3px oklch(.2 .01 80/.07);
+  --sh-md:0 4px 16px oklch(.2 .01 80/.09);
+  --sh-lg:0 12px 40px oklch(.2 .01 80/.13);
+  --font-d:'Playfair Display',Georgia,serif;
+  --font-b:'Inter','Helvetica Neue',sans-serif;
+  --w:1120px;
+}
+[data-theme="dark"]{
+  --bg:#141312;--surface:#1a1917;--surface-2:#201f1d;--surface-off:#232220;
+  --divider:#2a2927;--border:oklch(1 0 0/.09);
+  --text:#cccac7;--muted:#7a7977;--faint:#4e4d4b;--inv:#141312;
+  --teal:#4f98a3;--teal-h:#227f8b;--teal-bg:#21383a;
+  --navy:#4a7cb5;--navy-h:#6a99cc;--gold:#d4a837;--gold-bg:#3a3118;
+  --coral:#e07050;--coral-bg:#4a2a1e;--plum:#a97fe0;--plum-bg:#35224f;
+  --sh-sm:0 1px 3px oklch(0 0 0/.3);--sh-md:0 4px 16px oklch(0 0 0/.4);--sh-lg:0 12px 40px oklch(0 0 0/.5);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --bg:#141312;--surface:#1a1917;--surface-2:#201f1d;--surface-off:#232220;
+  --divider:#2a2927;--border:oklch(1 0 0/.09);
+  --text:#cccac7;--muted:#7a7977;--faint:#4e4d4b;--inv:#141312;
+  --teal:#4f98a3;--teal-h:#227f8b;--teal-bg:#21383a;
+  --navy:#4a7cb5;--navy-h:#6a99cc;--gold:#d4a837;--gold-bg:#3a3118;
+  --coral:#e07050;--coral-bg:#4a2a1e;--plum:#a97fe0;--plum-bg:#35224f;
+  --sh-sm:0 1px 3px oklch(0 0 0/.3);--sh-md:0 4px 16px oklch(0 0 0/.4);--sh-lg:0 12px 40px oklch(0 0 0/.5);
+}}
+
+/* ══════════════════════════════
+   BASE
+══════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:var(--font-b);font-size:var(--tx-base);color:var(--text);background:var(--bg);min-height:100dvh;line-height:1.6}
+img,svg{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4{font-family:var(--font-d);line-height:1.2;text-wrap:balance}
+p{text-wrap:pretty;max-width:72ch}
+button,a{cursor:pointer;transition:all var(--ease)}
+a{text-decoration:none;color:inherit}
+button{border:none;background:none;font:inherit;color:inherit}
+::selection{background:oklch(from var(--teal) l c h/.2)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:var(--r-sm)}
+
+/* ══════════════════════════════
+   LAYOUT
+══════════════════════════════ */
+.page-wrap{max-width:var(--w);margin:0 auto;padding-inline:clamp(var(--s4),4vw,var(--s10))}
+
+/* ══════════════════════════════
+   TOP BAR
+══════════════════════════════ */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:color-mix(in oklab,var(--bg) 85%,transparent);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  padding:var(--s4) clamp(var(--s4),4vw,var(--s10));
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s4)
+}
+.topbar-logo{font-family:var(--font-d);font-size:var(--tx-lg);font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:var(--s3)}
+.btn-toggle{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:var(--r-full);
+  color:var(--muted);
+}
+.btn-toggle:hover{background:var(--surface-off);color:var(--text)}
+
+/* ══════════════════════════════
+   PAGE HEADER
+══════════════════════════════ */
+.page-header{
+  text-align:center;
+  padding:clamp(var(--s12),8vw,var(--s20)) var(--s4) clamp(var(--s8),4vw,var(--s12));
+}
+.page-header h1{font-size:var(--tx-2xl);margin-bottom:var(--s4)}
+.page-header p{font-size:var(--tx-base);color:var(--muted);max-width:52ch;margin:0 auto}
+.variant-label{
+  display:inline-flex;align-items:center;gap:var(--s2);
+  font-size:var(--tx-xs);font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--teal-bg);color:var(--teal);
+  padding:var(--s1) var(--s3);border-radius:var(--r-full);margin-bottom:var(--s4)
+}
+
+/* ══════════════════════════════
+   SECTION WRAPPERS
+══════════════════════════════ */
+.variant-section{
+  padding:clamp(var(--s12),7vw,var(--s16)) 0;
+  border-top:1px solid var(--divider);
+}
+.variant-section:first-of-type{border-top:none}
+.variant-header{margin-bottom:clamp(var(--s8),4vw,var(--s12))}
+.variant-header h2{font-size:var(--tx-xl);margin-bottom:var(--s3)}
+.variant-header p{font-size:var(--tx-sm);color:var(--muted)}
+
+/* ══════════════════════════════
+   ① BENTO GRID (Asymmetric)
+══════════════════════════════ */
+.bento{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-auto-rows:auto;
+  gap:var(--s4);
+}
+.bento-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-2xl);padding:var(--s8);
+  display:flex;flex-direction:column;gap:var(--s4);
+  box-shadow:var(--sh-sm);
+  transition:box-shadow var(--ease),transform var(--ease);
+  overflow:hidden;position:relative;
+}
+.bento-card:hover{box-shadow:var(--sh-lg);transform:translateY(-3px)}
+.bento-card.c1{grid-column:span 5}
+.bento-card.c2{grid-column:span 7;flex-direction:row;align-items:center;gap:var(--s8)}
+.bento-card.c3{grid-column:span 4}
+.bento-card.c4{grid-column:span 4}
+.bento-card.c5{grid-column:span 4}
+.bento-card.hero-card{
+  background:var(--navy);color:var(--inv);border-color:var(--navy);
+}
+.bento-card.hero-card .bc-desc{color:rgba(255,255,255,.75)}
+.bento-card.hero-card .bc-tag{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9)}
+.bc-num{
+  font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;
+  line-height:1;color:var(--teal);margin-bottom:var(--s2);
+}
+.bento-card.hero-card .bc-num{color:rgba(255,255,255,.35)}
+.bc-title{font-family:var(--font-d);font-size:var(--tx-lg);font-weight:700;margin-bottom:var(--s2)}
+.bc-desc{font-size:var(--tx-sm);color:var(--muted);line-height:1.65}
+.bc-tags{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:auto;padding-top:var(--s4)}
+.bc-tag{
+  font-size:var(--tx-xs);font-weight:600;
+  padding:2px var(--s3);border-radius:var(--r-full);
+  background:var(--surface-off);color:var(--muted);
+}
+.bc-icon{
+  width:48px;height:48px;border-radius:var(--r-xl);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--teal-bg);color:var(--teal);
+}
+.bento-card.hero-card .bc-icon{background:rgba(255,255,255,.15);color:#fff}
+.bento-card.c2 .bc-body{flex:1}
+/* diagonal accent */
+.bento-card.c1::after{
+  content:'';position:absolute;bottom:-40px;right:-40px;
+  width:120px;height:120px;border-radius:50%;
+  background:color-mix(in oklab,var(--teal) 8%,transparent);pointer-events:none;
+}
+
+/* ══════════════════════════════
+   ② LIST + VISUAL (Horizontal)
+══════════════════════════════ */
+.hor-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+.hor-card{
+  display:flex;align-items:flex-start;gap:var(--s5);
+  padding:var(--s6);background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-xl);box-shadow:var(--sh-sm);
+  transition:box-shadow var(--ease),transform var(--ease);
+}
+.hor-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.hor-card-num{
+  font-family:var(--font-d);font-size:var(--tx-xl);font-weight:700;
+  color:var(--teal);flex-shrink:0;line-height:1;min-width:2rem;
+  opacity:.35;
+}
+.hor-card-body h3{font-family:var(--font-d);font-size:var(--tx-base);font-weight:700;margin-bottom:var(--s2)}
+.hor-card-body p{font-size:var(--tx-sm);color:var(--muted);line-height:1.65}
+.hor-card-body .hor-price{
+  display:inline-block;margin-top:var(--s4);
+  font-size:var(--tx-xs);font-weight:700;letter-spacing:.06em;
+  color:var(--teal);text-transform:uppercase;
+}
+
+/* ══════════════════════════════
+   ③ DARK FEATURE STRIP
+══════════════════════════════ */
+.strip-section{
+  background:var(--navy);border-radius:var(--r-2xl);
+  padding:clamp(var(--s10),6vw,var(--s16)) clamp(var(--s8),5vw,var(--s16));
+  color:var(--inv);
+}
+.strip-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:clamp(var(--s8),4vw,var(--s12));flex-wrap:wrap;gap:var(--s4)}
+.strip-head h2{font-size:var(--tx-2xl);color:#fff;max-width:14ch}
+.strip-head p{font-size:var(--tx-sm);color:rgba(255,255,255,.65);max-width:32ch;text-align:right}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.strip-card{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-xl);padding:var(--s8);
+  transition:background var(--ease),transform var(--ease);
+}
+.strip-card:hover{background:rgba(255,255,255,.12);transform:translateY(-3px)}
+.strip-card-icon{
+  width:44px;height:44px;margin-bottom:var(--s5);
+  color:rgba(255,255,255,.5);
+}
+.strip-card h3{font-family:var(--font-d);font-size:var(--tx-lg);color:#fff;margin-bottom:var(--s3)}
+.strip-card p{font-size:var(--tx-sm);color:rgba(255,255,255,.65);line-height:1.65}
+.strip-card .strip-link{
+  display:inline-flex;align-items:center;gap:var(--s2);
+  margin-top:var(--s5);font-size:var(--tx-sm);font-weight:600;
+  color:#fff;opacity:.75;transition:opacity var(--ease);
+}
+.strip-card:hover .strip-link{opacity:1}
+
+/* ══════════════════════════════
+   ④ ACCENT CARDS (Colorful)
+══════════════════════════════ */
+.accent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5)}
+.accent-card{
+  border-radius:var(--r-2xl);padding:var(--s10) var(--s8);
+  display:flex;flex-direction:column;gap:var(--s4);
+  transition:transform var(--ease),box-shadow var(--ease);
+  box-shadow:var(--sh-sm);
+}
+.accent-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.ac-teal{background:var(--teal);color:#fff}
+.ac-gold{background:var(--surface-2);border:1px solid var(--border)}
+.ac-coral{background:var(--coral);color:#fff}
+.ac-plum{background:var(--surface-2);border:1px solid var(--border)}
+.accent-card h3{font-family:var(--font-d);font-size:var(--tx-xl);font-weight:700}
+.accent-card p{font-size:var(--tx-base);opacity:.85;line-height:1.65;flex:1}
+.ac-gold h3,.ac-plum h3{color:var(--text)}
+.ac-gold p,.ac-plum p{color:var(--muted);opacity:1}
+.ac-gold .ac-accent{color:var(--gold)}
+.ac-plum .ac-accent{color:var(--plum)}
+.ac-btn{
+  align-self:flex-start;margin-top:var(--s4);
+  font-size:var(--tx-sm);font-weight:700;
+  padding:var(--s3) var(--s6);border-radius:var(--r-full);
+  transition:transform var(--ease),box-shadow var(--ease);
+  display:inline-flex;align-items:center;gap:var(--s2);
+}
+.ac-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px oklch(0 0 0/.2)}
+.ac-teal .ac-btn,.ac-coral .ac-btn{background:rgba(255,255,255,.2);color:#fff}
+.ac-gold .ac-btn{background:var(--gold);color:#fff}
+.ac-plum .ac-btn{background:var(--plum);color:#fff}
+.ac-feature-list{display:flex;flex-direction:column;gap:var(--s2);margin-top:var(--s2)}
+.ac-feature-list li{
+  list-style:none;display:flex;align-items:center;gap:var(--s3);
+  font-size:var(--tx-sm);
+}
+.ac-feature-list li::before{
+  content:'';display:block;width:5px;height:5px;border-radius:50%;flex-shrink:0;
+  background:currentColor;opacity:.5;
+}
+.ac-teal .ac-feature-list li,.ac-coral .ac-feature-list li{color:rgba(255,255,255,.85)}
+.ac-gold .ac-feature-list li{color:var(--muted)}
+.ac-plum .ac-feature-list li{color:var(--muted)}
+
+/* ══════════════════════════════
+   ⑤ COMPACT TABLE STYLE
+══════════════════════════════ */
+.table-grid{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-sm)}
+.table-row{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;
+  align-items:center;gap:var(--s6);
+  padding:var(--s5) var(--s8);
+  background:var(--surface-2);border-bottom:1px solid var(--border);
+  transition:background var(--ease);
+}
+.table-row:last-child{border-bottom:none}
+.table-row:hover{background:var(--surface-off)}
+.table-head-row{
+  background:var(--surface-off);font-size:var(--tx-xs);font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+}
+.table-head-row:hover{background:var(--surface-off)}
+.tr-name{font-weight:700;font-size:var(--tx-base)}
+.tr-desc{font-size:var(--tx-sm);color:var(--muted);margin-top:var(--s1)}
+.tr-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:var(--tx-xs);font-weight:700;
+  padding:2px var(--s3);border-radius:var(--r-full);white-space:nowrap;
+}
+.badge-teal{background:var(--teal-bg);color:var(--teal)}
+.badge-gold{background:var(--gold-bg);color:var(--gold)}
+.badge-coral{background:var(--coral-bg);color:var(--coral)}
+.badge-plum{background:var(--plum-bg);color:var(--plum)}
+.tr-price{font-family:var(--font-d);font-size:var(--tx-lg);font-weight:700;white-space:nowrap}
+.tr-days{font-size:var(--tx-sm);color:var(--muted);white-space:nowrap}
+.tr-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:var(--s2) var(--s5);border-radius:var(--r-full);
+  font-size:var(--tx-sm);font-weight:700;white-space:nowrap;
+  background:var(--teal);color:#fff;
+  transition:background var(--ease),transform var(--ease);
+}
+.tr-btn:hover{background:var(--teal-h);transform:scale(1.03)}
+
+/* ══════════════════════════════
+   ⑥ MAGAZINE / EDITORIAL
+══════════════════════════════ */
+.mag-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:var(--s6)}
+.mag-main{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-2xl);
+  overflow:hidden;box-shadow:var(--sh-sm);
+  transition:box-shadow var(--ease),transform var(--ease);
+}
+.mag-main:hover{box-shadow:var(--sh-lg);transform:translateY(-3px)}
+.mag-thumb{
+  height:220px;background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.mag-thumb-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+.mag-thumb-label{
+  position:relative;font-family:var(--font-d);font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:700;color:rgba(255,255,255,.2);letter-spacing:-.02em;
+  z-index:1;text-align:center;line-height:1;
+}
+.mag-body{padding:var(--s8)}
+.mag-cat{font-size:var(--tx-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:var(--s3)}
+.mag-body h3{font-family:var(--font-d);font-size:var(--tx-xl);font-weight:700;margin-bottom:var(--s4)}
+.mag-body p{font-size:var(--tx-sm);color:var(--muted);line-height:1.7}
+.mag-link{
+  display:inline-flex;align-items:center;gap:var(--s2);
+  margin-top:var(--s6);font-size:var(--tx-sm);font-weight:700;
+  color:var(--teal);transition:gap var(--ease);
+}
+.mag-link:hover{gap:var(--s3)}
+.mag-side{display:flex;flex-direction:column;gap:var(--s4)}
+.mag-side-card{
+  display:flex;gap:var(--s5);align-items:flex-start;
+  background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-xl);
+  padding:var(--s5);box-shadow:var(--sh-sm);
+  transition:box-shadow var(--ease),transform var(--ease);
+}
+.mag-side-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.mag-side-thumb{
+  width:64px;height:64px;border-radius:var(--r-lg);flex-shrink:0;
+  background:var(--teal-bg);display:flex;align-items:center;justify-content:center;
+  color:var(--teal);
+}
+.mag-side-body{}
+.mag-side-cat{font-size:var(--tx-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:var(--s1)}
+.mag-side-body h4{font-family:var(--font-d);font-size:var(--tx-base);font-weight:700;margin-bottom:var(--s2)}
+.mag-side-body p{font-size:var(--tx-xs);color:var(--muted);line-height:1.6}
+
+/* ══════════════════════════════
+   BOTTOM NOTE
+══════════════════════════════ */
+.bottom-note{
+  text-align:center;padding:clamp(var(--s12),6vw,var(--s16)) var(--s4);
+  color:var(--muted);font-size:var(--tx-sm);border-top:1px solid var(--divider);
+}
+.bottom-note strong{color:var(--teal)}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:900px){
+  .bento{grid-template-columns:1fr 1fr}
+  .bento-card.c1,.bento-card.c2,.bento-card.c3,.bento-card.c4,.bento-card.c5{grid-column:span 1}
+  .bento-card.c2{flex-direction:column}
+  .bento-card.c1{grid-column:span 2}
+  .strip-grid{grid-template-columns:1fr 1fr}
+  .table-row{grid-template-columns:1fr auto;gap:var(--s4)}
+  .table-row .tr-days,.table-row .tr-days,.table-head-row .th-days{display:none}
+  .table-head-row .th-time,.table-row .tr-time{display:none}
+  .mag-grid{grid-template-columns:1fr}
+  .strip-head p{text-align:left}
+  .hor-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .bento{grid-template-columns:1fr}
+  .bento-card.c1{grid-column:span 1}
+  .accent-grid{grid-template-columns:1fr}
+  .strip-grid{grid-template-columns:1fr}
+  .table-row{grid-template-columns:1fr auto;padding:var(--s4) var(--s5)}
+  .tr-badge,.table-head-row .th-badge{display:none}
+  .page-header h1{font-size:clamp(1.8rem,7vw,3rem)}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:8px">
+      <rect width="28" height="28" rx="7" fill="currentColor" opacity=".12"/>
+      <path d="M7 9h8L9 19h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    ServiceBlocks
+  </div>
+  <div class="topbar-right">
+    <button class="btn-toggle" data-theme-toggle aria-label="Сменить тему">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+<div class="page-wrap">
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>6 вариантов блока «Услуги»</h1>
+  <p>Выберите стиль, который подходит вашей компании — скопируйте нужный блок и адаптируйте под свой контент.</p>
+</div>
+
+
+<!-- ═══════════════════════════
+     ВАРИАНТ 1 — BENTO GRID
+═══════════════════════════ -->
+<section class="variant-section">
+<div class="variant-header">
+  <div class="variant-label">Вариант 1</div>
+  <h2>Bento-сетка — асимметричная раскладка</h2>
+  <p>Современный стиль. Карточки разных размеров привлекают взгляд и расставляют акценты.</p>
+</div>
+
+<div class="bento">
+
+  <div class="bento-card c1">
+    <div class="bc-num">01</div>
+    <h3 class="bc-title">Разработка сайтов</h3>
+    <p class="bc-desc">Лендинги, корпоративные сайты, интернет-магазины. Адаптивный дизайн, быстрая загрузка, SEO-оптимизация.</p>
+    <div class="bc-tags">
+      <span class="bc-tag">HTML/CSS</span>
+      <span class="bc-tag">Vue.js</span>
+      <span class="bc-tag">React</span>
+    </div>
+  </div>
+
+  <div class="bento-card c2 hero-card">
+    <div class="bc-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+    </div>
+    <div class="bc-body">
+      <div class="bc-num">02</div>
+      <h3 class="bc-title">Telegram Mini Apps и боты</h3>
+      <p class="bc-desc">Мини-приложения с полноценным UI, боты для автоматизации продаж, лидогенерации и поддержки клиентов.</p>
+      <div class="bc-tags">
+        <span class="bc-tag">Telegram API</span>
+        <span class="bc-tag">Python</span>
+        <span class="bc-tag">Vue.js</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bento-card c3">
+    <div class="bc-num">03</div>
+    <h3 class="bc-title">Фронтенд-разработка</h3>
+    <p class="bc-desc">SPA и PWA приложения. Vue 3, React, Pinia, Webpack — чистый и масштабируемый код.</p>
+    <div class="bc-tags">
+      <span class="bc-tag">Vue 3</span><span class="bc-tag">React</span>
+    </div>
+  </div>
+
+  <div class="bento-card c4">
+    <div class="bc-num">04</div>
+    <h3 class="bc-title">PHP-бэкенд и API</h3>
+    <p class="bc-desc">MVC-архитектура, REST API, интеграция с CRM, платёжными системами и Google Sheets.</p>
+    <div class="bc-tags">
+      <span class="bc-tag">PHP</span><span class="bc-tag">MySQL</span>
+    </div>
+  </div>
+
+  <div class="bento-card c5">
+    <div class="bc-num">05</div>
+    <h3 class="bc-title">Поддержка и доработки</h3>
+    <p class="bc-desc">Правки существующего сайта, оптимизация скорости, добавление новых модулей и функций.</p>
+    <div class="bc-tags">
+      <span class="bc-tag">Любой стек</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════
+     ВАРИАНТ 2 — HORIZONTAL LIST
+═══════════════════════════ -->
+<section class="variant-section">
+<div class="variant-header">
+  <div class="variant-label">Вариант 2</div>
+  <h2>Горизонтальные карточки с номерами</h2>
+  <p>Чёткая структура, легко считывается. Хорошо подходит для B2B и консалтинга.</p>
+</div>
+
+<div class="hor-grid">
+
+  <div class="hor-card">
+    <div class="hor-card-num">01</div>
+    <div class="hor-card-body">
+      <h3>Веб-сайты под ключ</h3>
+      <p>Разрабатываем лендинги и корпоративные сайты с нуля: дизайн, вёрстка, подключение форм и CRM. Сдаём в срок.</p>
+      <span class="hor-price">от 5 000 ₽ · 5–7 дней</span>
+    </div>
+  </div>
+
+  <div class="hor-card">
+    <div class="hor-card-num">02</div>
+    <div class="hor-card-body">
+      <h3>Telegram-боты</h3>
+      <p>Автоматизируем сбор заявок, уведомления и продажи через Telegram. Интеграция с базой данных и Google Sheets.</p>
+      <span class="hor-price">от 3 000 ₽ · 3–5 дней</span>
+    </div>
+  </div>
+
+  <div class="hor-card">
+    <div class="hor-card-num">03</div>
+    <div class="hor-card-body">
+      <h3>Vue.js / React приложения</h3>
+      <p>Компонентная разработка фронтенда любой сложности. Интеграция с REST API, состояние, роутинг.</p>
+      <span class="hor-price">от 8 000 ₽ · от 7 дней</span>
+    </div>
+  </div>
+
+  <div class="hor-card">
+    <div class="hor-card-num">04</div>
+    <div class="hor-card-body">
+      <h3>Правки и доработки</h3>
+      <p>Исправим баги, добавим функции, ускорим сайт. Работаем с любым стеком технологий по почасовому тарифу.</p>
+      <span class="hor-price">от 500 ₽/ч · быстрый старт</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════
+     ВАРИАНТ 3 — DARK STRIP
+═══════════════════════════ -->
+<section class="variant-section">
+<div class="variant-header">
+  <div class="variant-label">Вариант 3</div>
+  <h2>Тёмный полноширокий блок</h2>
+  <p>Эффектный контрастный блок. Привлекает внимание и хорошо работает как якорный раздел страницы.</p>
+</div>
+
+<div class="strip-section">
+  <div class="strip-head">
+    <h2>Что мы делаем лучше всего</h2>
+    <p>Полный цикл — от идеи до готового продукта, который работает.</p>
+  </div>
+  <div class="strip-grid">
+
+    <div class="strip-card">
+      <div class="strip-card-icon">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>Веб-разработка</h3>
+      <p>Лендинги, корпоративные сайты, интернет-магазины. Адаптивная вёрстка и SEO-оптимизация.</p>
+      <span class="strip-link">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </div>
+
+    <div class="strip-card">
+      <div class="strip-card-icon">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>Telegram-боты и Mini Apps</h3>
+      <p>Автоматизация продаж, поддержки и лидогенерации. Полноценные мини-приложения внутри Telegram.</p>
+      <span class="strip-link">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </div>
+
+    <div class="strip-card">
+      <div class="strip-card-icon">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <h3>Бэкенд и интеграции</h3>
+      <p>PHP, MySQL, REST API. Подключение CRM, платёжных систем, парсинг и автоматизация данных.</p>
+      <span class="strip-link">Подробнее <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════════════════
+     ВАРИАНТ 4 — ACCENT CARDS
+═══════════════════════════ -->
+<section class="variant-section">
+<div class="variant-header">
+  <div class="variant-label">Вариант 4</div>
+  <h2>Акцентные карточки с цветными блоками</h2>
+  <p>Каждая услуга — отдельный характер. Цвет помогает различать категории с первого взгляда.</p>
+</div>
+
+<div class="accent-grid">
+
+  <div class="accent-card ac-teal">
+    <div style="font-size:var(--tx-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.75">Веб-разработка</div>
+    <h3>Сайты, которые продают</h3>
+    <p>Лендинги и корпоративные сайты под ключ — от макета до деплоя. Быстрая загрузка, адаптив, интеграция с формами.</p>
+    <ul class="ac-feature-list">
+      <li>Адаптивная вёрстка для всех устройств</li>
+      <li>SEO-структура с первой строки кода</li>
+      <li>Подключение CRM и форм</li>
+    </ul>
+    <a href="#" class="ac-btn">Заказать сайт <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+  <div class="accent-card ac-gold">
+    <div style="font-size:var(--tx-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;" class="ac-accent">Telegram</div>
+    <h3>Боты и Mini Apps</h3>
+    <p>Автоматизируем работу с клиентами прямо в Telegram. Сборка заявок, уведомления, мини-магазины и CRM.</p>
+    <ul class="ac-feature-list">
+      <li>Интеграция с базой данных</li>
+      <li>Выгрузка в Google Sheets</li>
+      <li>Уведомления команде в реальном времени</li>
+    </ul>
+    <a href="#" class="ac-btn">Заказать бота <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+  <div class="accent-card ac-coral">
+    <div style="font-size:var(--tx-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.75">Фронтенд</div>
+    <h3>Vue.js и React — любой сложности</h3>
+    <p>SPA, PWA, сложные интерфейсы с состоянием, роутингом и реальным API. Компонентный подход и чистый код.</p>
+    <ul class="ac-feature-list">
+      <li>Vue 3 + Pinia / React + Redux</li>
+      <li>Webpack, Vite — настроим с нуля</li>
+      <li>Документация кода</li>
+    </ul>
+    <a href="#" class="ac-btn">Обсудить задачу <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+  <div class="accent-card ac-plum">
+    <div style="font-size:var(--tx-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;" class="ac-accent">Поддержка</div>
+    <h3>Доработки и сопровождение</h3>
+    <p>Правки, новые модули, ускорение загрузки, исправление багов. Работаем с существующим кодом быстро и аккуратно.</p>
+    <ul class="ac-feature-list">
+      <li>Любой фреймворк и стек</li>
+      <li>Почасовая или пакетная оплата</li>
+      <li>Быстрый старт — от 1 дня</li>
+    </ul>
+    <a href="#" class="ac-btn">Написать нам <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════
+     ВАРИАНТ 5 — TABLE/LIST
+═══════════════════════════ -->
+<section class="variant-section">
+<div class="variant-header">
+  <div class="variant-label">Вариант 5</div>
+  <h2>Табличный прайс-лист</h2>
+  <p>Максимально понятно и конкретно. Идеально, если нужно показать цены и сроки одним взглядом.</p>
+</div>
+
+<div class="table-grid">
+  <div class="table-row table-head-row">
+    <div>Услуга</div>
+    <div class="th-badge">Категория</div>
+    <div>Цена</div>
+    <div class="th-time">Срок</div>
+    <div></div>
+  </div>
+  <div class="table-row">
+    <div>
+      <div class="tr-name">Лендинг под ключ</div>
+      <div class="tr-desc">Одностраничный сайт, адаптив, SEO, форма обратной связи</div>
+    </div>
+    <div class="tr-badge"><span class="badge-teal">Веб</span></div>
+    <div class="tr-price">5 000 ₽</div>
+    <div class="tr-days">5–7 дней</div>
+    <a href="#" class="tr-btn">Заказать</a>
+  </div>
+  <div class="table-row">
+    <div>
+      <div class="tr-name">Корпоративный сайт</div>
+      <div class="tr-desc">Многостраничный, CMS, интеграция с CRM, галерея</div>
+    </div>
+    <div class="tr-badge"><span class="badge-teal">Веб</span></div>
+    <div class="tr-price">15 000 ₽</div>
+    <div class="tr-days">14–21 день</div>
+    <a href="#" class="tr-btn">Заказать</a>
+  </div>
+  <div class="table-row">
+    <div>
+      <div class="tr-name">Telegram-бот</div>
+      <div class="tr-desc">Сбор заявок, уведомления, выгрузка в таблицу</div>
+    </div>
+    <div class="tr-badge"><span class="badge-gold">Telegram</span></div>
+    <div class="tr-price">3 000 ₽</div>
+    <div class="tr-days">3–5 дней</div>
+    <a href="#" class="tr-btn">Заказать</a>
+  </div>
+  <div class="table-row">
+    <div>
+      <div class="tr-name">Telegram Mini App</div>
+      <div class="tr-desc">Полноценный интерфейс внутри Telegram, Vue.js фронтенд</div>
+    </div>
+    <div class="tr-badge"><span class="badge-gold">Telegram</span></div>
+    <div class="tr-price">от 10 000 ₽</div>
+    <div class="tr-days">от 10 дней</div>
+    <a href="#" class="tr-btn">Заказать</a>
+  </div>
+  <div class="table-row">
+    <div>
+      <div class="tr-name">Vue.js / React SPA</div>
+      <div class="tr-desc">Фронтенд с роутингом, состоянием, REST API</div>
+    </div>
+    <div class="tr-badge"><span class="badge-coral">Фронтенд</span></div>
+    <div class="tr-price">от 8 000 ₽</div>
+    <div class="tr-days">от 7 дней</div>
+    <a href="#" class="tr-btn">Заказать</a>
+  </div>
+  <div class="table-row">
+    <div>
+      <div class="tr-name">Правки и доработки</div>
+      <div class="tr-desc">Любой существующий сайт или бот — почасово</div>
+    </div>
+    <div class="tr-badge"><span class="badge-plum">Поддержка</span></div>
+    <div class="tr-price">500 ₽/ч</div>
+    <div class="tr-days">быстро</div>
+    <a href="#" class="tr-btn">Заказать</a>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════════════════
+     ВАРИАНТ 6 — EDITORIAL / MAGAZINE
+═══════════════════════════ -->
+<section class="variant-section">
+<div class="variant-header">
+  <div class="variant-label">Вариант 6</div>
+  <h2>Редакционная сетка — главная + боковые</h2>
+  <p>Журнальный стиль. Одна ведущая услуга в фокусе, остальные — в боковой колонке.</p>
+</div>
+
+<div class="mag-grid">
+  <div class="mag-main">
+    <div class="mag-thumb">
+      <div class="mag-thumb-grid"></div>
+      <div class="mag-thumb-label">WEB</div>
+    </div>
+    <div class="mag-body">
+      <div class="mag-cat">Ключевая услуга</div>
+      <h3>Разработка сайтов — полный цикл</h3>
+      <p>Берём проект на всех этапах: от прототипа и дизайна до вёрстки, настройки и запуска. Лендинги за 5 дней, корпоративные сайты — за 2–3 недели. Чистый код, адаптив, SEO-оптимизация и подключение к любой CRM без доп. платы.</p>
+      <a href="#" class="mag-link">Обсудить проект <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+
+  <div class="mag-side">
+
+    <div class="mag-side-card">
+      <div class="mag-side-thumb">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="mag-side-body">
+        <div class="mag-side-cat">Telegram</div>
+        <h4>Боты и Mini Apps</h4>
+        <p>Автоматизация, лидогенерация и полноценные приложения внутри Telegram.</p>
+      </div>
+    </div>
+
+    <div class="mag-side-card">
+      <div class="mag-side-thumb" style="background:var(--coral-bg);color:var(--coral)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div class="mag-side-body">
+        <div class="mag-side-cat">Фронтенд</div>
+        <h4>Vue.js и React разработка</h4>
+        <p>SPA и PWA любой сложности. Интеграция с API, роутинг, состояние.</p>
+      </div>
+    </div>
+
+    <div class="mag-side-card">
+      <div class="mag-side-thumb" style="background:var(--plum-bg);color:var(--plum)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <div class="mag-side-body">
+        <div class="mag-side-cat">Бэкенд</div>
+        <h4>PHP, MySQL и API-интеграции</h4>
+        <p>REST API, CRM, платёжные системы, парсинг и автоматизация данных.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+</div><!-- /page-wrap -->
+</main>
+
+<footer class="bottom-note">
+  6 готовых вариантов · Выберите один и адаптируйте под свой контент · Создано с ❤️ для <strong>Zamirbek T.</strong>
+</footer>
+
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  t&&t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    t.innerHTML=d==='dark'
+      ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  });
+})();
+</script>
+</body>
+</html>
